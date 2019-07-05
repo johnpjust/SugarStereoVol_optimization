@@ -318,20 +318,19 @@ picklefile.close()
 # train_gt = data['Weight'][int(len(data['Weight'])/2):]
 
 
-train_vol = [a[0:2] for a in zip(data['Log_name'],data['Volume'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
-train_spd = [a[0:2] for a in zip(data['Log_name'],data['Speed'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
-train_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
+train_vol = [a[0:2] for a in zip(data['Log_name'],data['Volume'], data['Crop_type']) if '2014' in a[0]]
+train_spd = [a[0:2] for a in zip(data['Log_name'],data['Speed'], data['Crop_type']) if '2014' in a[0]]
+train_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']) if '2014' in a[0]]
 
 
-val_vol = [a[0:2] for a in zip(data['Log_name'],data['Volume'], data['Crop_type']) if 'Burnt' in a[2] and '2013' in a[0]]
-val_spd = [a[0:2] for a in zip(data['Log_name'],data['Speed'], data['Crop_type']) if 'Burnt' in a[2] and '2013' in a[0]]
-val_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']) if 'Burnt' in a[2] and '2013' in a[0]]
+val_vol = [a[0:2] for a in zip(data['Log_name'],data['Volume'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
+val_spd = [a[0:2] for a in zip(data['Log_name'],data['Speed'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
+val_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']) if 'Green' in a[2] and '2013' in a[0]]
 
+test_vol = [a[0:2] for a in zip(data['Log_name'],data['Volume'], data['Crop_type']) if '' in a[2] and '2015' in a[0]]
+test_spd = [a[0:2] for a in zip(data['Log_name'],data['Speed'], data['Crop_type']) if '' in a[2] and '2015' in a[0]]
+test_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']) if '' in a[2] and '2015' in a[0]]
 
-#
-# test_vol = [a[1] for a in zip(data['Log_name'],data['Volume']) if a[0] in test_lognames]
-# test_spd = [a[1] for a in zip(data['Log_name'],data['Speed']) if a[0] in test_lognames]
-# test_gt = [a[1] for a in zip(data['Log_name'],data['Weight']) if a[0] in test_lognames]
 
 # train_vol.append(val_vol)
 # train_spd.append(val_spd)
@@ -342,22 +341,23 @@ val_gt = [a[0:2] for a in zip(data['Log_name'],data['Weight'], data['Crop_type']
 # val_gt = test_gt
 
 # trainvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[4])), np.repeat(ind, len(a[4])), np.repeat(a[1], len(a[4]))]) for ind, a in enumerate(train) if a[0][:-4] not in lowlightlogs], axis=1))
-trainvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(train_vol) if '2013' in a[0]], axis=1))
-trainspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(train_spd) if '2013' in a[0]], axis=1))
-dfTrain_gt = pd.DataFrame(np.array([a[1] for a in train_gt if '2013' in a[0]]))
+trainvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(train_vol) if '' in a[0]], axis=1))
+trainspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(train_spd) if '' in a[0]], axis=1))
+dfTrain_gt = pd.DataFrame(np.array([a[1] for a in train_gt if '' in a[0]]))
 
 # valvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[4])), np.repeat(ind, len(a[4])), np.repeat(a[1], len(a[4]))]) for ind, a in enumerate(val) if a[0][:-4] not in lowlightlogs], axis=1))
-valvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(val_vol) if '2013' in a[0]], axis=1))
-valspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(val_spd) if '2013' in a[0]], axis=1))
-dfVal_gt = pd.DataFrame(np.array([a[1] for a in val_gt if '2013' in a[0]]))
+valvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(val_vol) if '' in a[0]], axis=1))
+valspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(val_spd) if '' in a[0]], axis=1))
+dfVal_gt = pd.DataFrame(np.array([a[1] for a in val_gt if '' in a[0]]))
 
-# testvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(zip(test_lognames, test_vol)) if '2013' in a[0]], axis=1))
-# testspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(zip(test_lognames, test_spd)) if a[0] not in lowlightlogs], axis=1))
-# dfTest_gt = pd.DataFrame(np.array([a[1] for a in zip(test_lognames, test_gt) if a[0] not in lowlightlogs]))
+testvol = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1])), np.repeat(ind, len(a[1]))]) for ind, a in enumerate(test_vol) if '' in a[0]], axis=1))
+testspd = np.transpose(np.concatenate([np.array([np.squeeze(np.array(a[1]))]) for ind, a in enumerate(test_spd) if '' in a[0]], axis=1))
+dfTest_gt = pd.DataFrame(np.array([a[1] for a in test_gt if '' in a[0]]))
+
 
 dfTrain = pd.DataFrame(trainvol[:,0])
 dfVal = pd.DataFrame(valvol[:,0])
-# dfTest = pd.DataFrame(testvol[:,0])
+dfTest = pd.DataFrame(testvol[:,0])
 
 
 #train
@@ -371,8 +371,8 @@ weights_val = np.ones(dfVal_gt.shape)
 y_val_in = dfVal_gt.values
 
 #test
-# df2_aggregate_test = Groupby(testvol[:,1].astype('int'), use_tf=True)
-# y_test_in = dfTest_gt.values
+df2_aggregate_test = Groupby(testvol[:,1].astype('int'), use_tf=True)
+y_test_in = dfTest_gt.values
 
 monotonic = False
 segment = True
@@ -490,8 +490,8 @@ y_train_in = y_train_in.astype('float64')
 x_val_in = np.maximum(dfVal.values.astype('float64')-1,0)
 y_val_in = y_val_in.astype('float64')
 
-# x_test_in = np.maximum(dfTest.values.astype('float64')-1,0)
-# y_test_in = y_test_in.astype('float64')
+x_test_in = np.maximum(dfTest.values.astype('float64')-1,0)
+y_test_in = y_test_in.astype('float64')
 
 weights_train = weights_train.astype('float64')
 weights_val = weights_val.astype('float64')
@@ -651,23 +651,29 @@ density_val = y_val_in/predicted_label_val
 predicted_label = df2_aggregate_train.apply_tf_unsorted_segment_sum(tf.multiply(tf.multiply(tf.exp(model(tf.nn.relu(x_train_in-bias))),tf.nn.relu(x_train_in-bias)), trainspd))
 density = y_train_in/predicted_label
 
+predicted_label_test = df2_aggregate_test.apply_tf_unsorted_segment_sum(tf.multiply(tf.multiply(tf.exp(model(tf.nn.relu(x_test_in-bias))),tf.nn.relu(x_test_in-bias)), testspd))
+density_test = y_test_in/predicted_label_test
+
 print(np.std(density)/np.mean(density))
 print(np.std(density_val)/np.mean(density_val))
+print(np.std(density_test.numpy()[np.where(density_test>0)[0]])/np.mean(density_test.numpy()[np.where(density_test>0)[0]]))
 
 np.mean(1-np.abs(predicted_label-y_train_in)/y_train_in)
 np.mean(1-np.abs(predicted_label_val*np.mean(density_val)-y_val_in)/y_val_in)
+np.mean(1-np.abs(predicted_label_test*np.mean(density_test)-y_test_in)/y_test_in)
 
 
-var_list_array = [x.numpy() for x in var_list]
-a1=var_list_array[0]
-a2=var_list_array[1]
-b1=0
-b2=0
-if len(var_list_array) == 4:
-    b1 = var_list_array[2]
-    b2 = var_list_array[3]
-train_means_array = train_means.values
-train_sds_array = train_sds.values
+#
+# var_list_array = [x.numpy() for x in var_list]
+# a1=var_list_array[0]
+# a2=var_list_array[1]
+# b1=0
+# b2=0
+# if len(var_list_array) == 4:
+#     b1 = var_list_array[2]
+#     b2 = var_list_array[3]
+# train_means_array = train_means.values
+# train_sds_array = train_sds.values
 
 # np.savetxt(CPpath + r'/checkpoint.txt', np.array(var_list))
 #
